@@ -42,3 +42,49 @@ class SupermarketManager:
             ITEM: SUB_CATEGORY,
             CATEGORY: None
         }
+
+    def process_manager_data(self, data: str) -> None:
+        """
+        Processes manager data (initialize supermarket's data) and check for basic validations.
+
+        Args:
+            data: the data to be processed
+
+        Returns:
+            None
+        """
+
+        # split the data line wise
+        line_wise_data = data.split('\n')
+
+        # store data for each line
+        for line_data in line_wise_data:
+            # ignore empty lines
+            if not line_data:
+                continue
+
+            try:
+                # split the line, remove any extra spaces and convert all the values into lower case
+                entity_type = ((line_data.split(',')[0]).strip()).lower()
+
+                # first argument is the entity type ( For E.g: For Dairy, entity type is 'Category'
+                args = line_data.split(',')[1:]
+
+                # first argument of the remaining arguments is the name of parent entity
+                entity_parent_name = ((args[0]).strip()).lower()
+
+                # if current customer data is invalid, ignore the data
+                if not self._validate_curr_customer_data(entity_type=entity_type,
+                                                         entity_parent_name=entity_parent_name):
+                    continue
+
+                # strip and convert all the other arguments to lower case
+                args = [(val.strip()).lower() for val in args]
+
+                # store the entity data after checking for its corresponding entity specific validations
+                self._store_entity_data(entity_type=entity_type, args=args)
+
+            except Exception as e:
+                print(f"Line data {line_data} is invalid. Ignoring this line. Exception: {e}\nTraceback: "
+                      f"{format_exc()}")
+    

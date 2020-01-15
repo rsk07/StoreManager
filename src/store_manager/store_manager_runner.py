@@ -113,3 +113,28 @@ class SupermarketManager:
             return False
 
         return True
+
+    def _store_entity_data(self, entity_type: str, args: Any) -> Any:
+        """
+        Check for entity specific validations and store the newly created entiyy object.
+
+        Args:
+            entity_type: Entity type
+            args: arguments to be stored for the current entity
+
+        Returns:
+            None
+        """
+
+        if not self.entities[entity_type].validate_args(*args):
+            return None
+
+        # if entity has a parent
+        if self.parent_type_map[entity_type]:
+            parent_entity_name = args[0]
+            # store the parent object for current entity name instead of the parent name
+            args[0] = self.store_data[self.parent_type_map[entity_type]][parent_entity_name]
+
+        # create the entity object and store it in its corresponding entity type
+        entity_obj = self.entities[entity_type](*args)
+        self._store_entity_mapping(entity_type=entity_type, entity_obj=entity_obj)

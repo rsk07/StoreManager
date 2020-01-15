@@ -87,4 +87,29 @@ class SupermarketManager:
             except Exception as e:
                 print(f"Line data {line_data} is invalid. Ignoring this line. Exception: {e}\nTraceback: "
                       f"{format_exc()}")
-    
+
+    def _validate_curr_customer_data(self, entity_type: str, entity_parent_name: str) -> bool:
+        """
+        Checks the validations for the current customer data.
+
+        Args:
+            entity_type: entity type of the data
+            entity_parent_name: entity's parent name
+
+        Returns:
+            True is valid, else False
+        """
+
+        # check if entity type is valid
+        if entity_type not in self.entities:
+            print(f"Entity type {entity_type} not found entities. Ignoring the current input line.")
+            return False
+
+        # check if parent entity name has been added
+        if not self._validate_entity_parent(entity_parent_name=entity_parent_name,
+                                            entity_parent_type=self.parent_type_map[entity_type]):
+            print(f"Parent entity {entity_parent_name} not found in {self.parent_type_map[entity_type]}. "
+                  f"Ignoring the current input line.")
+            return False
+
+        return True

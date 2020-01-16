@@ -138,3 +138,22 @@ class SupermarketManager:
         # create the entity object and store it in its corresponding entity type
         entity_obj = self.entities[entity_type](*args)
         self._store_entity_mapping(entity_type=entity_type, entity_obj=entity_obj)
+
+    def _validate_entity_parent(self, entity_parent_name: str, entity_parent_type: str) -> bool:
+        """
+        Checks if parent entity name is present in its corresponding entity type.
+
+        Args:
+            entity_parent_name: entity name to be checked
+            entity_parent_type: entity type where we need to check the name
+
+        Returns:
+            True, if found, else False
+        """
+
+        # for Category entity
+        if not entity_parent_type:
+            return True
+
+        # check if parent is found
+        return entity_parent_name in self.store_data[entity_parent_type]

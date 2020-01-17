@@ -157,3 +157,17 @@ class SupermarketManager:
 
         # check if parent is found
         return entity_parent_name in self.store_data[entity_parent_type]
+
+    def _store_entity_mapping(self, entity_type: str, entity_obj: Entity) -> None:
+        """
+        Store the entity mapping in its corresponding entity type.
+
+        Args:
+            entity_type: entity type where we need to add the mapping
+            entity_obj: entity object which is to be added
+
+        Returns:
+            None
+        """
+
+        self.store_data[entity_type][entity_obj.name] = entity_obj

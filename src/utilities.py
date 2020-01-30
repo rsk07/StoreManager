@@ -5,6 +5,34 @@
 import re
 
 from typing import Any
+from traceback import format_exc
+
+from src.exceptions.exceptions import ReadFileError
+
+
+def read_file(file: str) -> str:
+    """
+    Reads data from file.
+
+    Args:
+        file: file from which we need to read the data
+
+    Returns:
+        the fetched data
+    """
+
+    try:
+        # open the file
+        with open(file) as f:
+            # read the data
+            data = f.read()
+
+    except Exception as e:
+        print(f"Failed to read the input file {file}.Exception: {e}\nTraceback: {format_exc()}")
+        raise ReadFileError
+
+    # return the fetched data
+    return data
 
 
 def extract_required_data(data_str: str, req_type: str) -> Any:

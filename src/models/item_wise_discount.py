@@ -55,3 +55,27 @@ class ItemWiseDiscountStrategy(DiscountStrategy):
 
         # return the new discount unit wise
         return discount
+
+    @staticmethod
+    def validate(discount_str: str) -> bool:
+        """
+        Validates the discount string.
+
+        Args:
+            discount_str:
+
+        Returns:
+            True if valid, else False
+        """
+
+        # fetch the first and second part of the discount string
+        # first part - contains the items required to satisfy the discount criteria
+        # second part - contains free items that can be availed with that criteria
+        discount_data = discount_str.split('+')
+        discount_criteria = discount_data[0]
+        discount_qnty = discount_data[1]
+
+        return ItemWiseDiscountStrategy.validate_digits(part_a=discount_criteria,
+                                                        part_b=discount_qnty) and \
+               ItemWiseDiscountStrategy.validate_units(part_a=discount_criteria,
+                                                       part_b=discount_qnty)

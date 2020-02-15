@@ -35,3 +35,4 @@ class PercentageWiseDiscountStrategy(DiscountStrategy):
         discount_temp = discount_str.strip('%')
 
         return discount_temp.isdigit() and (0 <= int(discount_temp) <= 100)
+    

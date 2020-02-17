@@ -79,3 +79,23 @@ class ItemWiseDiscountStrategy(DiscountStrategy):
                                                         part_b=discount_qnty) and \
                ItemWiseDiscountStrategy.validate_units(part_a=discount_criteria,
                                                        part_b=discount_qnty)
+
+    @staticmethod
+    def validate_digits(part_a: str, part_b: str) -> bool:
+        """
+        Validate the digits in the given data.
+
+        Args:
+            part_a: first part
+            part_b: second part
+
+        Returns:
+            True if valid, else False
+        """
+
+        # return false if no digit found in either part
+        if not extract_required_data(part_a, req_type=r'[a-zA-Z]+') or not extract_required_data(part_b,
+                                                                                                 req_type=r'[a-zA-Z]+'):
+            return False
+
+        return True

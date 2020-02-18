@@ -35,3 +35,13 @@ class PercentageWiseDiscountStrategy(DiscountStrategy):
         discount_temp = discount_str.strip('%')
 
         return discount_temp.isdigit() and (0 <= int(discount_temp) <= 100)
+
+    def get_discount(self, original_cost: int, max_discount: int) -> float:
+        """
+        Calculate and returns the applicable discount.
+
+        Returns:
+            None
+        """
+
+        return (original_cost * max_discount) / 100

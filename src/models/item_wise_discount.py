@@ -99,3 +99,32 @@ class ItemWiseDiscountStrategy(DiscountStrategy):
             return False
 
         return True
+
+    @staticmethod
+    def validate_units(part_a: str, part_b: str) -> bool:
+        """
+        Validate the unit strings in the given data.
+
+        Args:
+            part_a: first part
+            part_b: second part
+
+        Returns:
+            True if valid, else False
+        """
+
+        # fetch the units str from both the parts
+        criteria_unit = extract_required_data(part_a, req_type=r'\D+')
+        qnty_unit = extract_required_data(part_b, req_type=r'\D+')
+
+        # if no units data found
+        if not criteria_unit or not qnty_unit:
+            return False
+
+        if criteria_unit not in units_mapping and not StandardUnits.has_value(criteria_unit):
+            return False
+
+        if qnty_unit not in units_mapping and not StandardUnits.has_value(qnty_unit):
+            return False
+
+        return True

@@ -128,3 +128,33 @@ class ItemWiseDiscountStrategy(DiscountStrategy):
             return False
 
         return True
+
+    def get_discount(self, quantity: int, price_per_unit: int) -> None:
+        """
+        Calculate and returns the applicable discount.
+
+        Returns:
+            None
+        """
+        # total items required to get some free items
+        criteria_qnty = self.discount_criteria
+
+        # total free items to be given
+        discount_qnty = self.discount_qnty
+
+        qnty_left = quantity
+
+        # stores total free items that can be availed
+        free_item_count = 0
+
+        # find out total free items that can be availed
+        while qnty_left > criteria_qnty:
+            diff = qnty_left - criteria_qnty
+            curr_free_items = min(diff, discount_qnty)
+            free_item_count += curr_free_items
+            qnty_left -= (curr_free_items + criteria_qnty)
+
+        # calculate the price for free items
+        discount = free_item_count * price_per_unit
+
+        return discount

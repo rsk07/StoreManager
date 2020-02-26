@@ -38,32 +38,13 @@ class Category(Entity):
 
         return len(args) == 2 and Entity.validate_discount(args[1])
 
-    @staticmethod
-    def validate_price(price_str: str) -> bool:
+    def get_max_discount(self) -> int:
         """
-        Validates the price string for item.
-
-        Args:
-            price_str: string to be validated
+        This will return the max discount between current entity and its parent class.
 
         Returns:
-            True, if valid, else False
+            max discount between current entity and its parent class
         """
 
-        # if no digit is found, return false
-        if not extract_required_data(data_str=price_str, req_type=r'\d+'):
-            return False
-
-        # if per('/') is not found, return false
-        if '/' not in price_str:
-            print("Please specify item price per ('/') units")
-            return False
-
-        # extract the unit from the price string
-        unit = price_str[price_str.index('/') + 1:]
-
-        # is unit not found in stored units, return false
-        if not StandardUnits.has_value(unit) and unit not in units_mapping:
-            return False
-
-        return True
+        # since category doesn't have a parent, return category's discount
+        return self.discount_strategy.discount

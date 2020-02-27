@@ -40,3 +40,14 @@ class SubCategory(Entity):
         """
 
         return len(args) == 3 and Entity.validate_discount(args[2])
+
+    def get_max_discount(self) -> int:
+        """
+        This will return the max discount between current entity and its parent class.
+
+        Returns:
+            max discount between current entity and its parent class
+        """
+
+        # max discount between current entity and its parent class
+        return max(self.discount_strategy.discount, self.category.get_max_discount())

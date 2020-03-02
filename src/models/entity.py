@@ -48,4 +48,4 @@ class Entity:
 
         # raise exception if discount string doesn't match any format
         raise InvalidDiscountString
-    
+

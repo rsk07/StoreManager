@@ -110,3 +110,14 @@ class Item(Entity):
         unit = units_mapping[unit]['std_equivalent_unit']
 
         return price, unit
+
+    def get_discount(self, *args: Any) -> DiscountStrategy:
+        """
+        Return discount for the current item
+
+        Returns:
+            total discount
+
+        """
+
+        return self.discount_strategy.get_discount(*args)

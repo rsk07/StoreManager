@@ -83,3 +83,30 @@ class Item(Entity):
 
         # return max discount between current entity and its parent class
         return max(self.discount_strategy.discount, self.sub_category.get_max_discount())
+
+    def _extract_price_and_unit(self, price_str: str) -> tuple:
+        """
+        Extract item price per unit from the price string.
+
+        Args:
+            price_str: price string
+
+        Returns:
+            price, unit
+        """
+
+        # fetch the digits from the price string
+        price = float(extract_required_data(data_str=price_str, req_type=r'[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)')[0])
+
+        # fetch the unit
+        unit = price_str[price_str.index('/') + 1:]
+
+        # if a standard unit, return the same unit and price
+        if StandardUnits.has_value(unit):
+            return price, unit
+
+        # if not a standard unit, convert the unit and price
+        price /= units_mapping[unit]['std_equivalent_val']
+        unit = units_mapping[unit]['std_equivalent_unit']
+
+        return price, unit

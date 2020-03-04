@@ -121,3 +121,16 @@ class Item(Entity):
         """
 
         return self.discount_strategy.get_discount(*args)
+
+    def get_price(self, quantity: int) -> None:
+        """
+        Calculate the total price for current item
+
+        Args:
+            quantity: quantity of current item
+
+        Returns:
+            total price
+        """
+
+        return self.price_per_unit * quantity

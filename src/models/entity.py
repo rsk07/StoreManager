@@ -49,3 +49,18 @@ class Entity:
         # raise exception if discount string doesn't match any format
         raise InvalidDiscountString
 
+    @staticmethod
+    def validate_discount(discount_str: str) -> bool:
+        """
+        Find the discount class using factory method and validate it accordingly.
+
+        Args:
+            discount_str: discount string
+
+        Returns:
+            True, if valid, else False
+
+        """
+
+        # find the discount class to be used and then validate the string
+        return Entity.factory_for_discount(discount_str).validate(discount_str)

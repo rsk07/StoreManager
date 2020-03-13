@@ -64,3 +64,14 @@ class Entity:
 
         # find the discount class to be used and then validate the string
         return Entity.factory_for_discount(discount_str).validate(discount_str)
+
+    @abstractmethod
+    def get_max_discount(self) -> None:
+        """
+        This will return the max discount between current entity and its parent class.
+
+        Returns:
+            None
+        """
+
+        pass

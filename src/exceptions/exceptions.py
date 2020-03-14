@@ -9,3 +9,6 @@ class ReadFileError(Exception):
 
 class EmptyManagerInput(Exception):
     """ Raise this when manager input file is empty. """
+
+class EmptyCustomerInput(Exception):
+    """ Raise this when customer input file is empty. """

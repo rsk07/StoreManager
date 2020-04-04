@@ -5,6 +5,7 @@
 
 from src.utilities import read_file
 from src.store_manager.store_manager_runner import SupermarketManager
+from src.exceptions.exceptions import EmptyManagerInput
 
 
 def run() -> None:
@@ -19,3 +20,6 @@ def run() -> None:
     store = SupermarketManager()
 
     manager_data = read_file(file='manager_input.txt')
+
+    if not manager_data:
+        raise EmptyManagerInput

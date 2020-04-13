@@ -171,3 +171,31 @@ class SupermarketManager:
         """
 
         self.store_data[entity_type][entity_obj.name] = entity_obj
+
+    def process_customer_input(self, customer_data: str) -> list:
+        """
+        Process and validate the input data for items provided by the customer.
+
+        Args:
+            customer_data: customer data to be processed
+
+        Returns:
+            list of items for which bill is to be generated
+        """
+
+        try:
+            # split the items by a comma
+            all_items_data = customer_data.split(',')
+            # strip extra spaces and convert the data to lower case
+            all_items_data = [(val.strip()).lower() for val in all_items_data]
+
+            # process the data for all the input items and stores the ones which are valid
+            processed_data = self._process_item_data(all_items_data=all_items_data)
+
+        except Exception as e:
+            print(f"Failed to generate bill as customer input cannot be processed.Exception: {e}\nTraceback: "
+                  f"{format_exc()}")
+            raise CustomerInputProcessingError
+
+        # list of valid items for which bill is to be generated
+        return processed_data

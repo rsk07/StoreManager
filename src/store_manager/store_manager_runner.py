@@ -199,3 +199,71 @@ class SupermarketManager:
 
         # list of valid items for which bill is to be generated
         return processed_data
+
+    def _process_item_data(self, all_items_data: list) -> list:
+        """
+        Process the data for all the input items and store the ones which are valid
+
+        Args:
+            all_items_data: list of all the input items
+
+        Returns:
+            list of valid items for which bill is to be generated
+        """
+
+        # list to store the valid data for which bill needs to be generated
+        processed_data = []
+
+        for item_data in all_items_data:
+            # arguments must contain item name and quantity
+            item_data = item_data.split(' ')
+            if len(item_data) < 2:
+                print('Invalid number of item arguments')
+                continue
+
+            # if len of arguments is greater than 2, take the last argument as quantity and rest as item name
+            item_name = item_data[0]
+            item_qnty_data = item_data[-1]
+
+            if len(item_data) > 2:
+                item_name = ' '.join(item_data[:-1])
+
+            # try to fetch the item's object from its corresponding entity type mapping
+            item_obj = self.store_data[ITEM].get(item_name)
+
+            # ignore the input if item not found
+            if not item_obj:
+                print(f'Sorry, the item {item_name} was not found')
+                continue
+
+            # check if quantity contains a digit
+            item_qnty_digit = float(
+                    extract_required_data(data_str=item_qnty_data, req_type=r'[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)')[0])
+
+            # if no digit found, ignore the current item
+            if not item_qnty_digit:
+                print(f'Please specify the quantity in number for the item {item_name}')
+                continue
+
+            # find the unit
+            item_qnty_unit = self._find_item_unit(item_qnty_data=item_qnty_data, item_name=item_name, item_obj=item_obj)
+
+            if not item_qnty_unit:
+                continue
+
+            # if unit not a standard one, convert it and modify the item_quantity accordingly
+            if item_qnty_unit in units_mapping:
+                item_qnty_digit *= units_mapping[item_qnty_unit]['std_equivalent_val']
+                item_qnty_unit = units_mapping[item_qnty_unit]['std_equivalent_unit']
+
+            # store the item data for which bill needs to be generated
+            processed_data.append(
+                    {
+                        'item': item_obj,
+                        'quantity': item_qnty_digit,
+                        'unit': item_qnty_unit
+                    }
+            )
+
+        # return the processed data
+        return processed_data

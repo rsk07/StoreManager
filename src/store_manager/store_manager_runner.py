@@ -267,3 +267,38 @@ class SupermarketManager:
 
         # return the processed data
         return processed_data
+
+    def _find_item_unit(self, item_qnty_data: str, item_name: str, item_obj: Item) -> Any:
+        """
+        Validates unit in the given string.
+
+        Args:
+            item_qnty_data: quantity data in which contains the unit
+            item_name: name of the current item
+
+        Returns:
+            item's quantity and standard unit
+        """
+
+        # check if quantity contains unit
+        item_qnty_unit = extract_required_data(data_str=item_qnty_data, req_type=r'[a-zA-Z]+')
+        # if no unit characters found, return None
+        if not item_qnty_unit:
+            print(f'Please specify the quantity for the item {item_name}')
+            return None
+
+        # if unit matches item's std unit
+        if item_qnty_unit == item_obj.unit:
+            return item_qnty_unit
+
+        # if unit not found in the stored units, return None
+        if item_qnty_unit not in units_mapping:
+            print(f'Please add a valid unit for the item {item_name}')
+            return None
+
+        # if unit's equivalent std unit doesn't matches item's std unit
+        if units_mapping[item_qnty_unit]['std_equivalent_unit'] != item_obj.unit:
+            print(f'Please add a valid unit for the item {item_name}')
+            return None
+
+        return item_qnty_unit

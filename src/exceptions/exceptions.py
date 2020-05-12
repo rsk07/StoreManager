@@ -12,3 +12,6 @@ class EmptyManagerInput(Exception):
 
 class EmptyCustomerInput(Exception):
     """ Raise this when customer input file is empty. """
+
+class CustomerInputProcessingError(Exception):
+    """ Raise this when input provided by the customer could not be processed. """

@@ -3,11 +3,18 @@
 #   Purpose: This file contains the Supermarket manager class. The class contains all the required functions to
 # initialize the supermarket store and generate a bill for customer
 
+from typing import Any
+from traceback import format_exc
 
+from src.constants import units_mapping
+from src.models.entity import Entity
 from src.constants import CATEGORY, SUB_CATEGORY, ITEM
 from src.models.category import Category
 from src.models.sub_category import SubCategory
 from src.models.item import Item
+from src.models.percentage_wise_discount import PercentageWiseDiscountStrategy
+from src.utilities import extract_required_data
+from src.exceptions.exceptions import CustomerInputProcessingError, BillGenerationError
 
 
 class SupermarketManager:
@@ -302,3 +309,56 @@ class SupermarketManager:
             return None
 
         return item_qnty_unit
+
+    @staticmethod
+    def generate_bill(processed_data: dict) -> None:
+        """
+        Calculate the total cost of items after applying discount and generate the bill.
+
+        Args:
+            processed_data: list of valid data for which bill needs to be generated
+
+        Returns:
+            None
+        """
+
+        # stores total original cost without discount
+        total_original_cost = 0.0
+        # stores total original cost with discount
+        total_new_cost = 0.0
+
+        print("\n\n=================================================")
+        print("HERE's YOUR BILL, HAVE A NICE DAY!")
+        print("=================================================")
+
+        # process all the items
+        for data in processed_data:
+            try:
+                # calculate the total cost for current item and add it to the overall cost
+                original_cost = round(data['item'].get_price(quantity=data['quantity']), 2)
+                total_original_cost += original_cost
+
+                # get total discount
+                if isinstance(data['item'].discount_strategy, PercentageWiseDiscountStrategy):
+                    discount = data['item'].get_discount(original_cost, data['item'].get_max_discount())
+                else:
+                    discount = data['item'].get_discount(data['quantity'], data['item'].price_per_unit)
+
+                # add the new cost for current item
+                new_cost = round(original_cost - discount, 2)
+
+                # update the total new cost
+                total_new_cost += new_cost
+
+                print(f"{data['item'].name} -> {data['quantity']}{data['unit']} -> Rs {new_cost}")
+
+            except Exception as e:
+                print(f"Data {data} is invalid. Ignoring this item. Exception: {e}\nTraceback: "
+                      f"{format_exc()}")
+                raise BillGenerationError
+
+        # print the billing details
+        print("=================================================")
+        print(f"Total Amount: Rs {total_new_cost}")
+        print(f"You saved: {total_original_cost} - {total_new_cost} = Rs {total_original_cost-total_new_cost}")
+        print("=================================================")

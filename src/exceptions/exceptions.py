@@ -15,3 +15,6 @@ class EmptyCustomerInput(Exception):
 
 class CustomerInputProcessingError(Exception):
     """ Raise this when input provided by the customer could not be processed. """
+
+class InvalidDiscountString(Exception):
+    """ Raise when the discount string in invalid. """

@@ -10,14 +10,18 @@ class ReadFileError(Exception):
 class EmptyManagerInput(Exception):
     """ Raise this when manager input file is empty. """
 
+
 class EmptyCustomerInput(Exception):
     """ Raise this when customer input file is empty. """
+
 
 class CustomerInputProcessingError(Exception):
     """ Raise this when input provided by the customer could not be processed. """
 
+
 class InvalidDiscountString(Exception):
     """ Raise when the discount string in invalid. """
+
 
 class BillGenerationError(Exception):
     """ Raise when there is some error while generating the bill. """

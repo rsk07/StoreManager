@@ -18,3 +18,6 @@ class CustomerInputProcessingError(Exception):
 
 class InvalidDiscountString(Exception):
     """ Raise when the discount string in invalid. """
+
+class BillGenerationError(Exception):
+    """ Raise when there is some error while generating the bill. """

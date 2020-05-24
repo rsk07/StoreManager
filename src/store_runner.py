@@ -5,7 +5,7 @@
 
 from src.utilities import read_file
 from src.store_manager.store_manager_runner import SupermarketManager
-from src.exceptions.exceptions import EmptyManagerInput
+from src.exceptions.exceptions import EmptyManagerInput, EmptyCustomerInput
 
 
 def run() -> None:
@@ -23,3 +23,21 @@ def run() -> None:
 
     if not manager_data:
         raise EmptyManagerInput
+
+    # process and store the initialization data for all the provided entities
+    store.process_manager_data(data=manager_data)
+
+    customer_data = read_file(file='customer_input.txt')
+
+    if not customer_data:
+        raise EmptyCustomerInput
+
+    # validate and store the items which are found in the store so that bill is generated only for them
+    processed_data = store.process_customer_input(customer_data=customer_data)
+
+    # calculate and generate the final bill
+    store.generate_bill(processed_data=processed_data)
+
+if __name__ == '__main__':
+    # run all the required functions
+    run()

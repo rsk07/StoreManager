@@ -38,6 +38,7 @@ def run() -> None:
     # calculate and generate the final bill
     store.generate_bill(processed_data=processed_data)
 
+
 if __name__ == '__main__':
     # run all the required functions
     run()

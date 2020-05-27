@@ -4,8 +4,8 @@
 # customer bill
 
 from src.utilities import read_file
-from src.store_manager.store_manager_runner import SupermarketManager
-from src.exceptions.exceptions import EmptyManagerInput, EmptyCustomerInput
+from src.store_manager.store_manager_runner import StoreManager
+from src.exceptions.exceptions import EmptyCustomerInput, EmptyManagerInput
 
 
 def run() -> None:
@@ -17,7 +17,7 @@ def run() -> None:
         None
     """
 
-    store = SupermarketManager()
+    store = StoreManager()
 
     manager_data = read_file(file='manager_input.txt')
 

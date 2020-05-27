@@ -17,7 +17,7 @@ from src.utilities import extract_required_data
 from src.exceptions.exceptions import CustomerInputProcessingError, BillGenerationError
 
 
-class SupermarketManager:
+class StoreManager:
     """
     This class contains methods and attributes required to initialize entities of a supermarket store and generate
     bills for customers.

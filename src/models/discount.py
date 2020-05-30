@@ -24,3 +24,13 @@ class DiscountStrategy:
         """
 
         pass
+
+    @abstractmethod
+    def get_discount(self, *args: Any) -> None:
+        """
+        Calculate and returns the applicable discount.
+
+        Returns:
+            None
+        """
+        pass

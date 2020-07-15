@@ -1,7 +1,7 @@
 #   Primary Author: Rahul Singh <rahulrsk07@gmail.com>
 #
-#   Purpose: This file contains the Supermarket manager class. The class contains all the required functions to
-# initialize the supermarket store and generate a bill for customer
+#   Purpose: This file contains the Store manager class. The class contains all the required functions to
+# initialize the store and generate a bill for customer
 
 from typing import Any
 from traceback import format_exc
@@ -19,13 +19,13 @@ from src.exceptions.exceptions import CustomerInputProcessingError, BillGenerati
 
 class StoreManager:
     """
-    This class contains methods and attributes required to initialize entities of a supermarket store and generate
-    bills for customers.
+    This class contains methods and attributes required to initialize entities of a store and generate bills for
+    customers.
     """
 
     def __init__(self) -> None:
         """
-        Initialization method for supermarket manager class.
+        Initialization method for store manager class.
         """
 
         # mapping for entities and its corresponding classes
@@ -52,7 +52,7 @@ class StoreManager:
 
     def process_manager_data(self, data: str) -> None:
         """
-        Processes manager data (initialize supermarket's data) and check for basic validations.
+        Processes manager data (initialize store's data) and check for basic validations.
 
         Args:
             data: the data to be processed
